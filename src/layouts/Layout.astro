@@ -2,9 +2,9 @@
 import pico from "../assets/pico.css?url";
 
 const path =
-  Astro.url.pathname === "/"
+  Astro.url.pathname === "/random-docs/"
     ? "/index.html"
-    : Astro.url.pathname.replace(/\/+$/g, "") + ".html";
+    : Astro.url.pathname.slice(12).replace(/\/+$/g, "") + ".html";
 ---
 
 <!doctype html>
@@ -34,7 +34,7 @@ const path =
   <body class="container">
     <header>
       <nav>
-        <a href="/">
+        <a href="/random-docs/">
           <h1>
             {path}
           </h1>

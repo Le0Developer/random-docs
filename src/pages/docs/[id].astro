@@ -23,16 +23,14 @@ const { doc } = Astro.props;
       {
         doc.data.tsd && (
           <li>
-            <a href={`/docs/${doc.id}/types.d.ts`}>
-              Download TypeScript Definitions
-            </a>
+            <a href={`${doc.id}/types.d.ts`}>Download TypeScript Definitions</a>
           </li>
         )
       }
       {
         doc.data.snippets.map((snip) => (
           <li>
-            <a href={`/docs/${doc.id}/snippets.${snip.name}.json`}>
+            <a href={`${doc.id}/snippets.${snip.name}.json`}>
               Download Code Snippets ({snip.name})
             </a>
           </li>
@@ -42,13 +40,13 @@ const { doc } = Astro.props;
     {
       doc.data.snippets.length === 0 ? null : (
         <small>
-          <a href="/help/snippets">What are code snippets?</a>
+          <a href="../help/snippets">What are code snippets?</a>
         </small>
       )
     }
 
     <footer>
-      <a href="/help/accuracy"
+      <a href="../help/accuracy"
         >Information may be incorrect! Help us improve it.</a
       >
     </footer>
