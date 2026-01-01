@@ -2,6 +2,11 @@ import "leadoc.doc"
 import "leadoc.fmt"
 
 export default doc.doc =>
+	@text {
+		"Official documentation: "
+		fmt.link "https://docs.aimware.net/index.html"
+	}
+
 	@section "Globals", ->
 		@flag "globals"
 
@@ -26,7 +31,7 @@ export default doc.doc =>
 					"Returns a table with all matching entities." .. fmt.eol
 					fmt.codeblock "lua", {
 						'for _, ent in ipairs(entities.FindByClass("CSSPlayer"))' .. fmt.eol
-						"  print(ent:GetName())" .. fmt.eol
+						"	print(ent:GetName())" .. fmt.eol
 						"end"
 					}
 				}
@@ -326,7 +331,7 @@ export default doc.doc =>
 
 			@function "RasterizeSVG", ->
 				@arg "data", "string"
-				@arg "scale", "number"
+				@arg "scale", "?number"
 				@returns "[[]integer, integer, integer]"
 
 		@namespace "gui", ->
@@ -710,6 +715,8 @@ export default doc.doc =>
 		@function "CreateMove", ->
 			@arg "usercmd", "UserCmd"
 			@description "Called every tick."
+
+		-- TODO: PreMove, PostMove
 
 		@function "FireGameEvent", ->
 			@arg "event", "GameEvent"

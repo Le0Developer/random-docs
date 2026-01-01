@@ -1,4 +1,4 @@
-package.path = "leadoc/?.lua;" .. package.path
+package.path = "?.lua;leadoc/?.lua;" .. package.path
 
 import "leadoc.gen.html"
 import "leadoc.gen.snippets"
