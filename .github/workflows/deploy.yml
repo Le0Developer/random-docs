@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Install Yuescript
+        run: |
+          git clone https://github.com/IppClub/YueScript.git
+          pushd YueScript
+          make install
+          popd
+
+      - name: Build docs
+        run: |
+          pushd docs
+          yue -e main.yue
+          popd
+
+      - name: Install, build, and upload your site
+        uses: withastro/action@v5
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

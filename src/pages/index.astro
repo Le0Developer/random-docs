@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const docs = await getCollection("docs");
+---
+
+<Layout>
+  <section>
+    <article>
+      <header>README.md</header>
+
+      <p>Hey there! This is a collection of random documentation files.</p>
+    </article>
+  </section>
+
+  <section>
+    <article>
+      <header>./blog</header>
+
+      <ul>
+        {
+          docs.map((doc) => (
+            <li>
+              <a href={`/docs/${doc.id}`}>{doc.data.name}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+  </section>
+</Layout>

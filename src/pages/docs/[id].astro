@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("docs");
+  return posts.map((doc) => ({
+    params: { id: doc.id },
+    props: { doc },
+  }));
+}
+
+const { doc } = Astro.props;
+---
+
+<Layout>
+  <article>
+    <header>
+      {doc.data.name}
+    </header>
+
+    <ul>
+      {
+        doc.data.tsd && (
+          <li>
+            <a href={`/docs/${doc.id}/types.d.ts`}>
+              Download TypeScript Definitions
+            </a>
+          </li>
+        )
+      }
+      {
+        doc.data.snippets.map((snip) => (
+          <li>
+            <a href={`/docs/${doc.id}/snippets.${snip.name}.json`}>
+              Download Code Snippets ({snip.name})
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    {
+      doc.data.snippets.length === 0 ? null : (
+        <small>
+          <a href="/help/snippets">What are code snippets?</a>
+        </small>
+      )
+    }
+
+    <footer>
+      <a href="/help/accuracy"
+        >Information may be incorrect! Help us improve it.</a
+      >
+    </footer>
+  </article>
+
+  <div set:html={doc.data.html} />
+</Layout>

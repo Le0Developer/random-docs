@@ -1,0 +1,54 @@
+package.path = "leadoc/?.lua;" .. package.path
+
+import "leadoc.gen.html"
+import "leadoc.gen.snippets"
+import "leadoc.gen.tsd"
+import "leadoc.json"
+
+
+docs =
+	* name: "Aimware v5"
+		id: "aimware-v5"
+		doc: require "actual-docs.aimware-v5"
+		lang: "lua"
+
+mkdir_p = => os.execute "mkdir -p #{@}"
+
+write_file = (content) =>
+	with io.open @, "w"
+		::write content
+		::close!
+
+out = "../src/content/docs"
+public = "../public/docs"
+mkdir_p out
+
+gen_doc = =>
+	local tsd_content
+	tsd_content = tsd.generate_typescript @doc, {} if @lang == "js"
+	snippet_files = []
+	switch @lang
+		when "lua"
+			lua_content = snippets.generate_snippets @doc, snippets.configs.lua
+			table.insert snippet_files, name: "lua", content: lua_content
+
+			yue_content = snippets.generate_snippets @doc, snippets.configs.yue
+			table.insert snippet_files, name: "yue", content: yue_content
+
+	html_content = html.generate_html @doc, {}
+
+	public_dir = "#{public}/#{@id}"
+	mkdir_p public_dir
+
+	write_file "#{out}/#{@id}.json", json.stringify
+		name: @name
+		lang: @lang
+		html: html_content
+		tsd: tsd_content != nil
+		snippets: snippet_files
+
+	write_file "#{public_dir}/types.d.ts", tsd_content if tsd_content != nil
+	write_file "#{public_dir}/snippets.#{name}.json", json.stringify content for :name, :content in *snippet_files
+
+
+gen_doc doc for doc in *docs
