@@ -11,6 +11,10 @@ docs =
 		id: "aimware-v5"
 		doc: require "actual-docs.aimware-v5"
 		lang: "lua"
+	* name: "Onetap v3"
+		id: "onetap-v3"
+		doc: require "actual-docs.onetap-v3"
+		lang: "javascript"
 
 mkdir_p = => os.execute "mkdir -p #{@}"
 
@@ -25,15 +29,22 @@ mkdir_p out
 
 gen_doc = =>
 	local tsd_content
-	tsd_content = tsd.generate_typescript @doc, {} if @lang == "js"
-	snippet_files = []
+	tsd_content = tsd.generate_typescript @doc if @lang == "javascript"
+	snippet_files = {n: 0}
 	switch @lang
 		when "lua"
 			lua_content = snippets.generate_snippets @doc, snippets.configs.lua
 			table.insert snippet_files, name: "lua", content: lua_content
+			snippet_files.n += 1
 
 			yue_content = snippets.generate_snippets @doc, snippets.configs.yue
 			table.insert snippet_files, name: "yue", content: yue_content
+			snippet_files.n += 1
+
+		when "javascript"
+			js_content = snippets.generate_snippets @doc, snippets.configs.javascript
+			table.insert snippet_files, name: "javascript", content: js_content
+			snippet_files.n += 1
 
 	html_content = html.generate_html @doc, {}
 
