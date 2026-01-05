@@ -6,8 +6,7 @@ export default doc.doc =>
 		"Onetap V3 cracked version documentation." .. fmt.eol
 		"Onetap uses the "
 		fmt.link "https://duktape.org/", "Duktape"
-		" v2.3 JavaScript engine. "
-		fmt.link "https://kangax.github.io/compat-table/es6/#duktape2_3", "Compatibility Table"
+		" v2.3 JavaScript engine. Don't expect it to work like modern JavaScript. "
 	}
 
 	@section "Globals", ->
