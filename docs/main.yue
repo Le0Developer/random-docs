@@ -3,8 +3,9 @@ package.path = "?.lua;leadoc/?.lua;" .. package.path
 import "leadoc.gen.html"
 import "leadoc.gen.snippets"
 import "leadoc.gen.tsd"
+import "leadoc.validate.lua"
+import "leadoc.validate.javascript"
 import "leadoc.json"
-
 
 docs =
 	* name: "Aimware v5"
@@ -35,6 +36,8 @@ gen_doc = =>
 	local tsd_content
 	tsd_content = tsd.generate_typescript @doc if @lang == "javascript"
 	snippet_files = {n: 0}
+	local validation
+
 	switch @lang
 		when "lua"
 			lua_content = snippets.generate_snippets @doc, snippets.configs.lua
@@ -45,10 +48,20 @@ gen_doc = =>
 			table.insert snippet_files, name: "yue", content: yue_content
 			snippet_files.n += 1
 
+			validation = {
+				name: "validate.lua"
+				content: lua @doc.tree
+			}
+
 		when "javascript"
 			js_content = snippets.generate_snippets @doc, snippets.configs.javascript
 			table.insert snippet_files, name: "javascript", content: js_content
 			snippet_files.n += 1
+
+			validation = {
+				name: "validate.js"
+				content: javascript @doc.tree
+			}
 
 	html_content = html.generate_html @doc, {}
 
@@ -63,6 +76,7 @@ gen_doc = =>
 		snippets: snippet_files
 
 	write_file "#{public_dir}/types.d.ts", tsd_content if tsd_content != nil
+	write_file "#{public_dir}/#{validation.name}", validation.content if validation?
 	write_file "#{public_dir}/snippets.#{name}.json", json.stringify content for :name, :content in *snippet_files
 
 
