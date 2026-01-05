@@ -15,6 +15,10 @@ docs =
 		id: "onetap-v3"
 		doc: require "actual-docs.onetap-v3"
 		lang: "javascript"
+	* name: "Onetap v4"
+		id: "onetap-v4"
+		doc: require "actual-docs.onetap-v4"
+		lang: "javascript"
 
 mkdir_p = => os.execute "mkdir -p #{@}"
 
