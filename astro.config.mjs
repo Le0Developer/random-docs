@@ -5,4 +5,5 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://le0developer.github.io",
   base: "/random-docs/",
+  trailingSlash: "always",
 });
