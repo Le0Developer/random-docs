@@ -3,8 +3,8 @@ import "leadoc.fmt"
 
 export default doc.doc =>
 	@text {
-		"OneTap V3 cracked version documentation." .. fmt.eol
-		"OneTap uses the "
+		"Onetap V3 cracked version documentation." .. fmt.eol
+		"Onetap uses the "
 		fmt.link "https://duktape.org/", "Duktape"
 		" v2.3 JavaScript engine. "
 		fmt.link "https://kangax.github.io/compat-table/es6/#duktape2_3", "Compatibility Table"
@@ -717,7 +717,9 @@ export default doc.doc =>
 				@description {
 					"Returns the class id of the entity." .. fmt.eol
 					fmt.warn {
-						"Class ids sometimes change during game updates, and shouldn't be used for identification. Use Entity.GetClassName instead."
+						"Class ids sometimes change during game updates, and shouldn't be used for identification. Use "
+						fmt.reference {"Globals", "Entity", "GetClassName"}, "Entity.GetClassName"
+						" instead."
 					}
 				}
 
@@ -803,7 +805,7 @@ export default doc.doc =>
 				@arg "target", "integer"
 				@arg "start", "Vector3"
 				@arg "end", "Vector3"
-				@returns "?[integer, number, boolean, number]"
+				@returns "?[integer, number, boolean, Hitbox]"
 				@description {
 					"Traces a bullet between start and end." .. fmt.eol
 					"Returns undefined if the target is not hit, otherwise returns [target, damage, visibility, hitbox]." .. fmt.eol
@@ -1037,7 +1039,7 @@ export default doc.doc =>
 				"- target_index (integer): Entityindex of the target" .. fmt.eol
 				"- hitchance (integer): Hitchance of the shot (between 0 and 100)" .. fmt.eol
 				"- safepoint (integer): Targetting a safepoint" .. fmt.eol
-				"- hitbox (integer): Targetted hitbox"
+				"- hitbox (", fmt.reference({"Types", "Hitbox"}, "Hitbox"),  "): Targetted hitbox"
 			}
 
 		@function "player_say", ->
@@ -1046,14 +1048,13 @@ export default doc.doc =>
 				fmt.warn {
 					"This callback is very inconsistent and may not work."
 				}
-				fmt.eol .. fmt.eol
 				"Arguments available via Event module:" .. fmt.eol
 				"- userid (integer): Userid of the message author" .. fmt.eol
 				"- text (string): Content of the message"
 			}
 
-		@function "CSGO Events", ->
-			@description {
+		@section "CSGO Events", ->
+			@text {
 				"CS:GO has builtin events which can also be used as callbacks and with the Event module." .. fmt.eol .. fmt.eol
 				"Event list: "
 				fmt.link "https://wiki.alliedmods.net/Counter-Strike:_Global_Offensive_Events"
